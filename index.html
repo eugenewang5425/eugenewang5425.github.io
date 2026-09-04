@@ -148,6 +148,8 @@
 
 <script>
 (function () {
+  /* TEMP build tag: remove together with #diag once jitter is confirmed fixed */
+  console.log('[homepage] build 20260905a');
   var header = document.getElementById('site-header');
   var toggle = header.querySelector('.nav-toggle');
   var menu = document.getElementById('nav-menu');
@@ -316,7 +318,7 @@
     out.value = buf.join(';');
     out.select();
   };
-  box.appendChild(document.createTextNode('🛠 #diag'));
+  box.appendChild(document.createTextNode('🛠 #diag · build 20260905a'));
   box.appendChild(btn);
   document.body.appendChild(box);
   document.body.appendChild(out);
