@@ -245,13 +245,14 @@
     if (maxY <= 0) return null;
     var down = spyLastY === null || y >= spyLastY;
     spyLastY = y;
-    /* Contact zone: enter within 70px of the bottom (any direction);
-       while ascending it is kept until >140px away, so the end-area
-       oscillation real trackpads produce never flaps the highlight. */
-    if (maxY - y <= 70) { spyLast = ids[ids.length - 1]; return spyLast; }
-    if (spyLast === ids[ids.length - 1] && !down && maxY - y <= 140) return spyLast;
+    /* Contact zone: the last ~120px of the scrollable range is wide
+       enough to swallow any end-area oscillation (real trackpads wander
+       ±4-15px and the page height can shift across window resizes);
+       while ascending the zone is kept until >240px away. */
+    if (maxY - y <= 120) { spyLast = ids[ids.length - 1]; return spyLast; }
+    if (spyLast === ids[ids.length - 1] && !down && maxY - y <= 240) return spyLast;
     var reading = y + Math.min(280, d.clientHeight * 0.3);
-    var HYST = 24;
+    var HYST = 12;
     var raw = null;
     for (var j = ids.length - 1; j >= 0; j--) {
       if (spyEls[j] && spyEls[j].offsetTop <= reading) { raw = ids[j]; break; }
