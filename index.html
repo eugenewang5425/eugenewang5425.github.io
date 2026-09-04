@@ -154,11 +154,17 @@
   var progress = document.getElementById('nav-progress');
   var links = Array.prototype.slice.call(menu.querySelectorAll('a'));
 
-  /* scroll progress */
+  /* scroll progress (coalesced: at most one style write per frame) */
+  var progressPending = false;
   function updateProgress() {
-    var d = document.documentElement;
-    var max = d.scrollHeight - d.clientHeight;
-    progress.style.width = (max > 0 ? (d.scrollTop / max) * 100 : 0) + '%';
+    if (progressPending) return;
+    progressPending = true;
+    requestAnimationFrame(function () {
+      progressPending = false;
+      var d = document.documentElement;
+      var max = d.scrollHeight - d.clientHeight;
+      progress.style.width = (max > 0 ? (d.scrollTop / max) * 100 : 0) + '%';
+    });
   }
   window.addEventListener('scroll', updateProgress, { passive: true });
   updateProgress();
@@ -193,17 +199,28 @@
   function easeInOutQuad(t) {
     return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   }
+  function scrollToInstant(y) {
+    /* explicit 'instant' overwrites any OS/browser smooth-scroll setting,
+       so our rAF curve is never double-smoothed into oscillation */
+    try {
+      window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+    } catch (err) {
+      window.scrollTo(0, y);
+    }
+  }
   function animateScrollTo(targetY) {
     var startY = scrollYNow();
     var delta = targetY - startY;
     cancelAnimationFrame(scrollAnim);
     scrollAnim = null;
-    if (Math.abs(delta) < 1) { window.scrollTo(0, targetY); return; }
+    if (Math.abs(delta) < 1) { scrollToInstant(targetY); return; }
     var duration = Math.min(650, Math.max(240, Math.abs(delta) * 0.4));
     var t0 = performance.now();
+    var lastY = -1;
     function step(now) {
       var p = Math.min(1, (now - t0) / duration);
-      window.scrollTo(0, startY + delta * easeInOutQuad(p));
+      var y = Math.round(startY + delta * easeInOutQuad(p));
+      if (y !== lastY) { scrollToInstant(y); lastY = y; }
       scrollAnim = p < 1 ? requestAnimationFrame(step) : null;
     }
     scrollAnim = requestAnimationFrame(step);
@@ -211,9 +228,15 @@
   function reduceMotion() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
-  /* user manually scrolling always wins: stop our animation */
-  window.addEventListener('wheel', function () { cancelAnimationFrame(scrollAnim); scrollAnim = null; }, { passive: true });
-  window.addEventListener('touchstart', function () { cancelAnimationFrame(scrollAnim); scrollAnim = null; }, { passive: true });
+  /* let real user scrolling win; ignore trackpad micro-noise (<50px/event)
+     that would otherwise kill the animation mid-flight and cause stutter */
+  function stopIfRealScroll(e) {
+    if (Math.abs(e.deltaY) > 50 || Math.abs(e.deltaX) > 50) {
+      cancelAnimationFrame(scrollAnim);
+      scrollAnim = null;
+    }
+  }
+  window.addEventListener('wheel', stopIfRealScroll, { passive: true });
 
   var anchors = Array.prototype.slice.call(header.querySelectorAll('a[href^="#"]'));
   anchors.forEach(function (a) {
