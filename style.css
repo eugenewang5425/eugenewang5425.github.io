@@ -32,6 +32,23 @@ body{
   line-height:1.65;
   -webkit-font-smoothing:antialiased;
 }
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent2);outline-offset:2px;border-radius:6px}
+
+/* ---- top nav ---- */
+.nav{
+  position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.7rem 22px;
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--card-border);
+}
+.brand{font-weight:700;text-decoration:none;color:var(--ink);white-space:nowrap}
+.nav nav{display:flex;gap:1rem;flex-wrap:wrap}
+.nav nav a{text-decoration:none;color:var(--muted);font-size:.92rem;padding:.2rem .1rem;border-bottom:2px solid transparent;transition:.12s}
+.nav nav a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
 .page{
   max-width:920px;
   margin:0 auto;
@@ -39,15 +56,30 @@ body{
 }
 .hero{text-align:center;padding:28px 0 12px}
 .name{font-size:clamp(1.8rem,5vw,2.6rem);margin:0;font-weight:800;letter-spacing:-.02em}
-.name .zh{font-weight:500;font-size:.65em;color:var(--muted)}
-.name .slash{color:var(--accent2);font-style:normal}
 .tagline{font-size:1.05rem;margin:.6rem 0 .4rem}
 .tagline strong{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .intro{color:var(--muted)}
 .intro em{color:var(--accent)}
 .badges{margin:1.2rem auto 0;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;max-width:560px}
 .chip{font-size:.82rem;padding:.32rem .7rem;border:1px solid var(--card-border);border-radius:999px;background:var(--card);white-space:nowrap}
-.card{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:22px 24px;margin:20px 0;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.cta{margin-top:1.3rem;display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.btn{
+  display:inline-block;text-decoration:none;
+  padding:.55rem 1.15rem;border-radius:999px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#fff;font-weight:600;font-size:.92rem;
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(79,140,255,.35)}
+.btn.ghost{background:transparent;border:1px solid var(--card-border);color:var(--ink);box-shadow:none}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent);box-shadow:none}
+
+.card{
+  background:var(--card);border:1px solid var(--card-border);border-radius:16px;
+  padding:22px 24px;margin:20px 0;
+  box-shadow:0 1px 2px rgba(0,0,0,.03);
+}
+.card{scroll-margin-top:70px}
 h2{font-size:1.15rem;margin:0 0 .7rem;border-left:4px solid var(--accent);padding-left:.6rem}
 h3{font-size:1rem;margin:.2rem 0 .3rem}
 .line{margin-top:.6rem;color:var(--muted)}
@@ -58,9 +90,10 @@ code{font-family:ui-monospace,"Cascadia Code",Consolas,monospace;background:var(
 .tile{display:flex;flex-direction:column;gap:.35rem;padding:16px;border-radius:12px;border:1px solid var(--card-border);text-decoration:none;color:var(--ink);transition:transform .12s ease,box-shadow .12s ease}
 .tile:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.08);border-color:var(--accent)}
 .tile-icon{font-size:1.4rem}
+.tile strong{color:var(--ink)}
 .tile span{font-size:.9rem;color:var(--muted)}
 .road{list-style:none;padding:0;margin:0}
-.road li{padding:.4rem 0;border-bottom:1px dashed var(--card-border)}
+.road li{padding:.45rem 0;border-bottom:1px dashed var(--card-border)}
 .road li:last-child{border-bottom:none}
 .road b{display:inline-block;min-width:86px;color:var(--accent)}
 .links{display:flex;flex-wrap:wrap;gap:.6rem}
@@ -68,4 +101,13 @@ code{font-family:ui-monospace,"Cascadia Code",Consolas,monospace;background:var(
 .links a:hover{border-color:var(--accent);color:var(--accent)}
 footer{text-align:center;color:var(--muted);padding-top:10px}
 footer em{color:var(--accent)}
-@media (max-width:520px){.page{padding:32px 16px 48px}}
+.foot-note{font-size:.82rem;margin-top:.4rem}
+.foot-note a{color:var(--muted)}
+@media (max-width:520px){
+  .page{padding:32px 16px 48px}
+  .nav{flex-direction:column;gap:.35rem;padding:.6rem 16px}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .tile,.btn{transition:none}
+}

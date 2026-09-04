@@ -3,19 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eugene Wang · GIS → Robotics</title>
-  <meta name="description" content="Eugene Wang — GIS & remote-sensing deep learning, building toward embodied intelligence." />
+  <title>Eugene Wang · GIS → Robotics · 个人主页</title>
+  <meta name="description" content="Eugene Wang — GIS & remote-sensing deep learning, now building toward embodied intelligence: robot perception, 3D vision and SLAM." />
+  <meta name="author" content="Eugene Wang" />
+  <meta name="theme-color" content="#fbf8f4" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#15161a" media="(prefers-color-scheme: dark)" />
+  <link rel="canonical" href="https://eugenewang5425.github.io/" />
+  <meta property="og:title" content="Eugene Wang · GIS → Robotics" />
+  <meta property="og:description" content="Mapping the world — then teaching machines to move in it." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://eugenewang5425.github.io/" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#127757;</text></svg>" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="page">
+
+  <header class="nav">
+    <a class="brand" href="#top">🌍 eugenewang5425</a>
+    <nav aria-label="主导航">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#now">Now</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page">
+
     <section class="hero" id="top">
       <h1 class="name">Eugene Wang</h1>
       <p class="tagline">
-        🌍 <strong>GIS · Remote Sensing Deep Learning → Robotics</strong>
+        🌍 <strong>GIS · Remote-Sensing Deep Learning → Robotics</strong>
       </p>
       <p class="intro">
-        从「看懂地图」一路走到「看懂世界、还能动」。<br />
+        从「看懂地图」走到「看懂世界、还能动」。<br />
         <em>Mapping the world — then teaching machines to move in it.</em>
       </p>
       <div class="badges">
@@ -24,60 +46,80 @@
         <span class="chip">CNN / Transformer</span>
         <span class="chip">GIS · ArcGIS</span>
         <span class="chip">Remote Sensing</span>
+        <span class="chip">Hadoop / MapReduce</span>
+        <span class="chip">MuJoCo</span>
+        <span class="chip">ROS 2 (learning)</span>
         <span class="chip">3D Vision · SLAM</span>
+      </div>
+      <div class="cta">
+        <a class="btn" href="https://github.com/eugenewang5425">GitHub Profile</a>
+        <a class="btn ghost" href="mailto:eugenewa@outlook.com">Email Me</a>
       </div>
     </section>
 
-    <section class="card">
+    <section class="card" id="about">
       <h2>About · 关于</h2>
       <p>
-        I'm a <strong>GIS graduate</strong> focused on <strong>high-resolution remote-sensing land-cover classification</strong>.
-        I'm bringing my spatial-computation background into <strong>robotics — 3D vision, robot perception, and SLAM</strong>.
+        B.S. in <strong>Geographic Information Science</strong> (Northeast Forestry University, 2026) — focused on
+        <strong>high-resolution remote-sensing land-cover classification</strong>, now carrying spatial computation into
+        <strong>robotics: 3D vision, robot perception, SLAM and robot learning</strong>.
       </p>
       <p class="line">
         Main line: <code>spatial intelligence → computer vision → robot perception &amp; mapping → robot learning</code>
       </p>
     </section>
 
-    <section class="card">
+    <section class="card" id="research">
       <h2>Research · 研究</h2>
       <div class="item">
-        <h3>MSSACT-Net</h3>
-        <p>High-resolution remote-sensing land-cover classification for complex forest regions — combining <strong>CNN multi-scale features</strong> with <strong>Transformer global modeling</strong> (GF-1/GF-6, 2.4 m, 4-band).</p>
+        <h3>MSSACT-Net · 高分辨率遥感影像土地覆盖分类</h3>
+        <p>Land-cover classification for complex forest regions (根河市 · 呼伦贝尔): <strong>CNN multi-scale features</strong> +
+          <strong>Transformer global modeling</strong> on GF-1/GF-6 2.4 m 4-band imagery —
+          <strong>OA 76.80% · Kappa 0.650 · mIoU 41.59%</strong> on a spatially independent test set.</p>
       </div>
     </section>
 
-    <section class="card">
+    <section class="card" id="projects">
       <h2>Projects · 项目</h2>
       <div class="grid">
-        <a class="tile" href="https://github.com/eugenewang5425/ielts-corpus-lab">
-          <span class="tile-icon">🔥</span>
-          <strong>ielts-corpus-lab</strong>
-          <span>Auditable IELTS four-skill corpus stats &amp; topic explorer</span>
+        <a class="tile" href="https://github.com/eugenewang5425/embodied-ai-lab">
+          <span class="tile-icon">🧠</span>
+          <strong>embodied-ai-lab</strong>
+          <span>具身智能学习实验室：MuJoCo 控制/感知实验线 + 单目深度计量 / MuJoCo control &amp; perception line, monocular-depth lab</span>
+        </a>
+        <a class="tile" href="https://github.com/eugenewang5425/geoflow">
+          <span class="tile-icon">🚕</span>
+          <strong>geoflow</strong>
+          <span>Hadoop 分布式城市出行时空分析：~43M NYC 轨迹 · 3D 可视化 · 天气感知需求预测 / MapReduce mobility analytics</span>
         </a>
         <a class="tile" href="https://github.com/eugenewang5425/flowboard">
           <span class="tile-icon">🤖</span>
           <strong>flowboard</strong>
-          <span>Windows local multi-agent workflow board (Codex × Claude Code)</span>
+          <span>Windows 本地多智能体工作流看板（Codex × Claude Code）/ Local multi-agent workflow board</span>
         </a>
-        <a class="tile" href="https://github.com/eugenewang5425/GithubResource">
-          <span class="tile-icon">📦</span>
-          <strong>GithubResource</strong>
-          <span>GitHub resource collection</span>
+        <a class="tile" href="https://github.com/eugenewang5425/ielts-corpus-lab">
+          <span class="tile-icon">🔥</span>
+          <strong>ielts-corpus-lab</strong>
+          <span>可审计的 IELTS 四科语料统计与话题探索 / Auditable IELTS corpus stats &amp; explorer</span>
+        </a>
+        <a class="tile" href="https://github.com/eugenewang5425/clawd-on-desk">
+          <span class="tile-icon">🐾</span>
+          <strong>clawd-on-desk</strong>
+          <span>开源贡献：注视 AI 编码代理的桌面像素宠物（可靠性审计）/ Pixel desktop pet · reliability audit</span>
         </a>
       </div>
     </section>
 
-    <section class="card">
+    <section class="card" id="now">
       <h2>Now / Next · 阶段</h2>
       <ul class="road">
-        <li><b>Now</b> — deep learning · remote-sensing classification · Python/PyTorch</li>
-        <li><b>Next</b> — computer vision · 3D reconstruction · control theory</li>
-        <li><b>Long-term</b> — robot vision · SLAM · embodied intelligence</li>
+        <li><b>Now</b> — embodied-AI 学习线：MuJoCo（PD → LQR → 摆起 → 2R 臂 → 里程计 → 路标融合，443 项测试通过）· 单目深度计量标定 · ROS 2 Jazzy + Gazebo</li>
+        <li><b>Next</b> — 3D 感知（点云 / SLAM）· ROS 2 导航 · 模仿学习（ACT）</li>
+        <li><b>Long-term</b> — 具身智能 · VLA / 世界模型</li>
       </ul>
     </section>
 
-    <section class="card">
+    <section class="card" id="contact">
       <h2>Contact · 联系</h2>
       <div class="links">
         <a href="https://github.com/eugenewang5425">GitHub</a>
@@ -89,7 +131,10 @@
 
     <footer>
       <p>🪧 用空间数据理解世界，用智能体改变世界。<br /><em>Map the world, then teach it to move.</em></p>
+      <p class="foot-note">© 2026 Eugene Wang · 纯 HTML/CSS 构建 · Hosted on <a href="https://github.com/eugenewang5425/eugenewang5425.github.io">GitHub Pages</a></p>
     </footer>
-  </div>
+
+  </main>
+
 </body>
 </html>
