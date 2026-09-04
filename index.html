@@ -148,8 +148,6 @@
 
 <script>
 (function () {
-  /* TEMP build tag: remove together with #diag once jitter is confirmed fixed */
-  console.log('[homepage] build 20260905a');
   var header = document.getElementById('site-header');
   var toggle = header.querySelector('.nav-toggle');
   var menu = document.getElementById('nav-menu');
@@ -284,44 +282,6 @@
     return active;
   }
   scheduleFrame();
-})();
-</script>
-
-<script>
-/* temporary diagnostics (remove after the wheel jitter is confirmed fixed):
-   open https://.../#diag -> reproduce -> 导出诊断 */
-(function () {
-  if (location.hash !== '#diag') return;
-  var buf = [];
-  function act() {
-    var a = document.querySelector('.nav-link.is-active');
-    return a ? a.textContent.trim() : '-';
-  }
-  var rec = function () {
-    buf.push(Math.round(window.scrollY) + '|' + act());
-    if (buf.length > 4000) buf.shift();
-  };
-  setInterval(rec, 33);
-  window.addEventListener('wheel', function (e) {
-    buf.push('W:' + Math.round(e.deltaY || 0));
-    if (buf.length > 4000) buf.shift();
-  }, { passive: true });
-  var box = document.createElement('div');
-  box.style.cssText = 'position:fixed;right:12px;bottom:12px;z-index:9999;background:#1a1d24;color:#eee;font:12px/1.5 monospace;padding:10px 12px;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.4);display:flex;gap:8px;align-items:center';
-  var btn = document.createElement('button');
-  btn.textContent = '导出诊断';
-  btn.style.cssText = 'cursor:pointer;padding:4px 10px;border-radius:6px;border:none;background:#4f8cff;color:#fff;font:12px monospace';
-  var out = document.createElement('textarea');
-  out.style.cssText = 'position:fixed;right:12px;bottom:64px;width:460px;height:260px;display:none;z-index:9999;font:11px/1.4 monospace';
-  btn.onclick = function () {
-    out.style.display = 'block';
-    out.value = buf.join(';');
-    out.select();
-  };
-  box.appendChild(document.createTextNode('🛠 #diag · build 20260905a'));
-  box.appendChild(btn);
-  document.body.appendChild(box);
-  document.body.appendChild(out);
 })();
 </script>
 
