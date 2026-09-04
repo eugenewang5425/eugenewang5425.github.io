@@ -154,21 +154,15 @@
   var progress = document.getElementById('nav-progress');
   var links = Array.prototype.slice.call(menu.querySelectorAll('a'));
 
-  /* coalesced per-frame UI sync: progress bar + scroll spy.
-     scheduleFrame() is wired now and kicked once at the end, after the
-     spy definitions below have run (rAF callbacks fire later anyway). */
-  var framePending = false;
+  /* scroll UI sync: progress bar + spy. Chromium/WebKit fire scroll
+     events at most once per rendered frame, so direct sync updates are
+     both cheap and predictable (no rAF starvation under any mode). */
   function scheduleFrame() {
-    if (framePending) return;
-    framePending = true;
-    requestAnimationFrame(function () {
-      framePending = false;
-      var d = document.documentElement;
-      var y = scrollYNow();
-      var max = d.scrollHeight - d.clientHeight;
-      progress.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
-      setActive(spyOverride || currentActiveId());
-    });
+    var d = document.documentElement;
+    var y = scrollYNow();
+    var max = d.scrollHeight - d.clientHeight;
+    progress.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
+    setActive(spyOverride || currentActiveId());
   }
   window.addEventListener('scroll', scheduleFrame, { passive: true });
 
@@ -237,6 +231,7 @@
      that would otherwise kill the animation mid-flight and cause stutter */
   function releaseSpyOverride() {
     spyOverride = null;
+    spyLast = null;
   }
   function stopIfRealScroll(e) {
     if (Math.abs(e.deltaY) > 50 || Math.abs(e.deltaX) > 50) {
@@ -289,25 +284,26 @@
       if (on) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
     });
   }
+  /* position-based default: a section becomes current when its top
+     enters the reading zone (~220px below the viewport top), which also
+     lets Now/Contact activate while scrolling, not only when clicked.
+     Page end: the LAST section wins (the wheel can reach it even though
+     the page cannot bring it under the nav line), with 40px hysteresis so
+     a tiny overscroll bounce never flickers the highlight. */
+  var spyLast = null;
   function currentActiveId() {
     var d = document.documentElement;
     var y = scrollYNow();
-    var navBottom = y + NAV_OFFSET + 2;
     var maxY = d.scrollHeight - d.clientHeight;
     if (maxY <= 0) return null;
+    if (spyLast === ids[ids.length - 1] && maxY - y <= 60) return spyLast;
+    if (maxY - y <= 24) { spyLast = ids[ids.length - 1]; return spyLast; }
+    var scanY = y + 220;
     var active = null;
-    if (maxY - y <= 4) {
-      /* page end: pick the topmost section below the nav line */
-      for (var i = 0; i < ids.length; i++) {
-        if (spyEls[i] && spyEls[i].offsetTop >= navBottom) { active = ids[i]; break; }
-      }
-      if (!active) active = ids[ids.length - 1];
-      return active;
-    }
     for (var j = ids.length - 1; j >= 0; j--) {
-      if (spyEls[j] && navBottom >= spyEls[j].offsetTop) { active = ids[j]; break; }
+      if (spyEls[j] && spyEls[j].offsetTop <= scanY) { active = ids[j]; break; }
     }
-    if (active && navBottom < spyEls[0].offsetTop) active = null;
+    spyLast = active;
     return active;
   }
   scheduleFrame();
