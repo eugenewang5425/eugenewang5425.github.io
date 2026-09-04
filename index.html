@@ -18,15 +18,24 @@
 </head>
 <body>
 
-  <header class="nav">
-    <a class="brand" href="#top">🌍 eugenewang5425</a>
-    <nav aria-label="主导航">
-      <a href="#about">About</a>
-      <a href="#research">Research</a>
-      <a href="#projects">Projects</a>
-      <a href="#now">Now</a>
-      <a href="#contact">Contact</a>
+  <header class="nav" id="site-header">
+    <a class="brand" href="#top">
+      <img class="avatar" src="https://avatars.githubusercontent.com/u/110992772?v=4" alt="" width="30" height="30" />
+      <span>eugenewang5425</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <nav id="nav-menu" aria-label="主导航" class="nav-menu">
+      <a class="nav-link" href="#about">About</a>
+      <a class="nav-link" href="#research">Research</a>
+      <a class="nav-link" href="#projects">Projects</a>
+      <a class="nav-link" href="#now">Now</a>
+      <a class="nav-link" href="#contact">Contact</a>
     </nav>
+    <span class="nav-progress" id="nav-progress" aria-hidden="true"></span>
   </header>
 
   <main class="page">
@@ -58,7 +67,7 @@
     </section>
 
     <section class="card" id="about">
-      <h2>About · 关于</h2>
+      <h2><span class="sec-num">01</span>About · 关于</h2>
       <p>
         B.S. in <strong>Geographic Information Science</strong> (Northeast Forestry University, 2026) — focused on
         <strong>high-resolution remote-sensing land-cover classification</strong>, now carrying spatial computation into
@@ -70,7 +79,7 @@
     </section>
 
     <section class="card" id="research">
-      <h2>Research · 研究</h2>
+      <h2><span class="sec-num">02</span>Research · 研究</h2>
       <div class="item">
         <h3>MSSACT-Net · 高分辨率遥感影像土地覆盖分类</h3>
         <p>Land-cover classification for complex forest regions (根河市 · 呼伦贝尔): <strong>CNN multi-scale features</strong> +
@@ -80,7 +89,7 @@
     </section>
 
     <section class="card" id="projects">
-      <h2>Projects · 项目</h2>
+      <h2><span class="sec-num">03</span>Projects · 项目</h2>
       <div class="grid">
         <a class="tile" href="https://github.com/eugenewang5425/embodied-ai-lab">
           <span class="tile-icon">🧠</span>
@@ -111,7 +120,7 @@
     </section>
 
     <section class="card" id="now">
-      <h2>Now / Next · 阶段</h2>
+      <h2><span class="sec-num">04</span>Now / Next · 阶段</h2>
       <ul class="road">
         <li><b>Now</b> — embodied-AI 学习线：MuJoCo（PD → LQR → 摆起 → 2R 臂 → 里程计 → 路标融合，443 项测试通过）· 单目深度计量标定 · ROS 2 Jazzy + Gazebo</li>
         <li><b>Next</b> — 3D 感知（点云 / SLAM）· ROS 2 导航 · 模仿学习（ACT）</li>
@@ -120,7 +129,7 @@
     </section>
 
     <section class="card" id="contact">
-      <h2>Contact · 联系</h2>
+      <h2><span class="sec-num">05</span>Contact · 联系</h2>
       <div class="links">
         <a href="https://github.com/eugenewang5425">GitHub</a>
         <a href="mailto:eugenewa@outlook.com">Email</a>
@@ -135,6 +144,67 @@
     </footer>
 
   </main>
+
+
+<script>
+(function () {
+  var header = document.getElementById('site-header');
+  var toggle = header.querySelector('.nav-toggle');
+  var menu = document.getElementById('nav-menu');
+  var progress = document.getElementById('nav-progress');
+  var links = Array.prototype.slice.call(menu.querySelectorAll('a'));
+
+  /* scroll progress */
+  function updateProgress() {
+    var d = document.documentElement;
+    var max = d.scrollHeight - d.clientHeight;
+    progress.style.width = (max > 0 ? (d.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  /* mobile menu toggle */
+  function setOpen(open) {
+    header.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? '收起菜单' : '打开菜单');
+  }
+  toggle.addEventListener('click', function () {
+    setOpen(!header.classList.contains('open'));
+  });
+  links.forEach(function (a) {
+    a.addEventListener('click', function () { setOpen(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setOpen(false);
+  });
+  document.addEventListener('click', function (e) {
+    if (header.classList.contains('open') && !header.contains(e.target)) setOpen(false);
+  });
+
+  /* scroll spy: highlight current section */
+  var ids = ['about', 'research', 'projects', 'now', 'contact'];
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  var targets = [document.getElementById('top')].concat(ids.map(function (id) { return document.getElementById(id); })).filter(Boolean);
+  function setActive(id) {
+    links.forEach(function (a) {
+      var on = !!id && a === map[id];
+      a.classList.toggle('is-active', on);
+      if (on) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      var hit = entries.filter(function (en) { return en.isIntersecting; });
+      if (!hit.length) return;
+      hit.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      setActive(hit[0].target.id === 'top' ? null : hit[0].target.id);
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    targets.forEach(function (t) { io.observe(t); });
+  }
+})();
+</script>
 
 </body>
 </html>
