@@ -203,15 +203,32 @@
     if (e.key === ' ' || /^(Arrow|Page|Home|End)/.test(e.key)) releaseSpyOverride();
   }, { passive: true });
 
+  /* Nav clicks scroll INSTANTLY via JS (preventDefault). Native fragment
+     scrolling is animated on Chrome 151/Windows and mis-lands by hundreds
+     of px (reproduced: click Now while clamped at page bottom -> the page
+     flies ~350px up instead of staying put), and alternating Now/Contact
+     then bounces the page between their two clamped anchors. An instant
+     jump has no animation to mis-target: rapid clicks just re-jump and
+     the last one wins. pushState keeps the URL (and back-button history)
+     without re-triggering the native scroll. */
   var anchors = Array.prototype.slice.call(header.querySelectorAll('a[href^="#"]'));
+  function anchorScrollTop(el) {
+    var pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    var marg = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    return el.getBoundingClientRect().top + window.pageYOffset - pad - marg;
+  }
   anchors.forEach(function (a) {
-    a.addEventListener('click', function () {
-      /* the native anchor scroll does the rest (scroll-padding-top handles
-         the sticky-nav offset); the clicked section keeps the highlight
-         until the user scrolls manually */
+    a.addEventListener('click', function (e) {
       var href = a.getAttribute('href');
-      spyOverride = href === '#top' ? null : href.slice(1);
-      setActive(spyOverride);
+      var id = href === '#top' ? null : href.slice(1);
+      var el = id && document.getElementById(id);
+      e.preventDefault();
+      if (history.pushState) history.pushState(null, '', href);
+      var d = document.documentElement;
+      var y = el ? anchorScrollTop(el) : 0;
+      window.scrollTo(0, Math.max(0, Math.min(y, d.scrollHeight - d.clientHeight)));
+      spyOverride = id;
+      setActive(id);
     });
   });
 
