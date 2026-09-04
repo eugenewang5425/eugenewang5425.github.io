@@ -154,20 +154,23 @@
   var progress = document.getElementById('nav-progress');
   var links = Array.prototype.slice.call(menu.querySelectorAll('a'));
 
-  /* scroll progress (coalesced: at most one style write per frame) */
-  var progressPending = false;
-  function updateProgress() {
-    if (progressPending) return;
-    progressPending = true;
+  /* coalesced per-frame UI sync: progress bar + scroll spy.
+     scheduleFrame() is wired now and kicked once at the end, after the
+     spy definitions below have run (rAF callbacks fire later anyway). */
+  var framePending = false;
+  function scheduleFrame() {
+    if (framePending) return;
+    framePending = true;
     requestAnimationFrame(function () {
-      progressPending = false;
+      framePending = false;
       var d = document.documentElement;
+      var y = scrollYNow();
       var max = d.scrollHeight - d.clientHeight;
-      progress.style.width = (max > 0 ? (d.scrollTop / max) * 100 : 0) + '%';
+      progress.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
+      setActive(spyOverride || currentActiveId());
     });
   }
-  window.addEventListener('scroll', updateProgress, { passive: true });
-  updateProgress();
+  window.addEventListener('scroll', scheduleFrame, { passive: true });
 
   /* mobile menu toggle */
   function setOpen(open) {
@@ -219,7 +222,9 @@
     var lastY = -1;
     function step(now) {
       var p = Math.min(1, (now - t0) / duration);
-      var y = Math.round(startY + delta * easeInOutQuad(p));
+      var d = document.documentElement;
+      var maxY = d.scrollHeight - d.clientHeight;
+      var y = Math.round(Math.min(startY + delta * easeInOutQuad(p), maxY));
       if (y !== lastY) { scrollToInstant(y); lastY = y; }
       scrollAnim = p < 1 ? requestAnimationFrame(step) : null;
     }
@@ -230,13 +235,24 @@
   }
   /* let real user scrolling win; ignore trackpad micro-noise (<50px/event)
      that would otherwise kill the animation mid-flight and cause stutter */
+  function releaseSpyOverride() {
+    spyOverride = null;
+  }
   function stopIfRealScroll(e) {
     if (Math.abs(e.deltaY) > 50 || Math.abs(e.deltaX) > 50) {
       cancelAnimationFrame(scrollAnim);
       scrollAnim = null;
+      releaseSpyOverride();
     }
   }
   window.addEventListener('wheel', stopIfRealScroll, { passive: true });
+  window.addEventListener('keydown', function (e) {
+    if (e.key === ' ' || /^(Arrow|Page|Home|End)/.test(e.key)) {
+      cancelAnimationFrame(scrollAnim);
+      scrollAnim = null;
+      releaseSpyOverride();
+    }
+  }, { passive: true });
 
   var anchors = Array.prototype.slice.call(header.querySelectorAll('a[href^="#"]'));
   anchors.forEach(function (a) {
@@ -244,17 +260,28 @@
       e.preventDefault();
       var href = a.getAttribute('href');
       var target = href === '#top' ? null : document.getElementById(href.slice(1));
+      /* clicked-tab priority: highlight the clicked section immediately and
+         keep it even when the page end cannot bring that section to the top */
+      spyOverride = href === '#top' ? null : href.slice(1);
+      setActive(spyOverride);
       var y = target ? Math.max(0, target.getBoundingClientRect().top + scrollYNow() - NAV_OFFSET) : 0;
+      var maxY = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (y > maxY) y = maxY; /* never animate past the scrollable end */
       if (reduceMotion()) { window.scrollTo(0, y); } else { animateScrollTo(y); }
       try { history.replaceState(null, '', href); } catch (err) { /* ignore */ }
     });
   });
 
-  /* scroll spy: highlight current section */
+  /* scroll spy — offset-based default: the active section is the LAST one
+     whose top has crossed the nav bottom; the hero (top) highlights nothing.
+     At the page end the sections can't all reach the nav line, so the
+     topmost section below the nav wins there. Clicked sections take
+     priority (spyOverride) until the user scrolls manually. */
   var ids = ['about', 'research', 'projects', 'now', 'contact'];
   var map = {};
   links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
-  var targets = [document.getElementById('top')].concat(ids.map(function (id) { return document.getElementById(id); })).filter(Boolean);
+  var spyEls = ids.map(function (id) { return document.getElementById(id); });
+  var spyOverride = null;
   function setActive(id) {
     links.forEach(function (a) {
       var on = !!id && a === map[id];
@@ -262,15 +289,28 @@
       if (on) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
     });
   }
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      var hit = entries.filter(function (en) { return en.isIntersecting; });
-      if (!hit.length) return;
-      hit.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
-      setActive(hit[0].target.id === 'top' ? null : hit[0].target.id);
-    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
-    targets.forEach(function (t) { io.observe(t); });
+  function currentActiveId() {
+    var d = document.documentElement;
+    var y = scrollYNow();
+    var navBottom = y + NAV_OFFSET + 2;
+    var maxY = d.scrollHeight - d.clientHeight;
+    if (maxY <= 0) return null;
+    var active = null;
+    if (maxY - y <= 4) {
+      /* page end: pick the topmost section below the nav line */
+      for (var i = 0; i < ids.length; i++) {
+        if (spyEls[i] && spyEls[i].offsetTop >= navBottom) { active = ids[i]; break; }
+      }
+      if (!active) active = ids[ids.length - 1];
+      return active;
+    }
+    for (var j = ids.length - 1; j >= 0; j--) {
+      if (spyEls[j] && navBottom >= spyEls[j].offsetTop) { active = ids[j]; break; }
+    }
+    if (active && navBottom < spyEls[0].offsetTop) active = null;
+    return active;
   }
+  scheduleFrame();
 })();
 </script>
 
