@@ -185,85 +185,31 @@
     if (header.classList.contains('open') && !header.contains(e.target)) setOpen(false);
   });
 
-  /* own the scroll animation with rAF: every click cancels the running
-     animation and restarts from the CURRENT position, so rapid re-clicks
-     never fight Chromium's native smooth-scroll retarget (no stutter) */
-  var NAV_OFFSET = 76;
-  var scrollAnim = null;
+  /* scrolling is 100% native (html scroll-behavior:smooth + anchor links):
+     the browser owns cancel/retarget, so there is nothing to fight. We only
+     track input so the clicked-tab highlight hands back to the position rule. */
   var scrollYNow = function () {
     return window.pageYOffset || document.documentElement.scrollTop;
   };
-  function easeInOutQuad(t) {
-    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-  }
-  function scrollToInstant(y) {
-    /* explicit 'instant' overwrites any OS/browser smooth-scroll setting,
-       so our rAF curve is never double-smoothed into oscillation */
-    try {
-      window.scrollTo({ top: y, left: 0, behavior: 'instant' });
-    } catch (err) {
-      window.scrollTo(0, y);
-    }
-  }
-  function animateScrollTo(targetY) {
-    var startY = scrollYNow();
-    var delta = targetY - startY;
-    cancelAnimationFrame(scrollAnim);
-    scrollAnim = null;
-    if (Math.abs(delta) < 1) { scrollToInstant(targetY); return; }
-    var duration = Math.min(650, Math.max(240, Math.abs(delta) * 0.4));
-    var t0 = performance.now();
-    var lastY = -1;
-    function step(now) {
-      var p = Math.min(1, (now - t0) / duration);
-      var d = document.documentElement;
-      var maxY = d.scrollHeight - d.clientHeight;
-      var y = Math.round(Math.min(startY + delta * easeInOutQuad(p), maxY));
-      if (y !== lastY) { scrollToInstant(y); lastY = y; }
-      scrollAnim = p < 1 ? requestAnimationFrame(step) : null;
-    }
-    scrollAnim = requestAnimationFrame(step);
-  }
-  function reduceMotion() {
-    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
   function releaseSpyOverride() {
     spyOverride = null;
     spyLast = null;
   }
-  /* ANY user wheel/touch input cancels a running animation immediately:
-     the page must never fight the finger. Cancelling while no animation
-     is running is a harmless no-op, so no delta threshold games. */
-  function stopIfRealScroll() {
-    cancelAnimationFrame(scrollAnim);
-    scrollAnim = null;
-    releaseSpyOverride();
-  }
-  window.addEventListener('wheel', stopIfRealScroll, { passive: true });
-  window.addEventListener('touchstart', stopIfRealScroll, { passive: true });
+  window.addEventListener('wheel', releaseSpyOverride, { passive: true });
+  window.addEventListener('touchstart', releaseSpyOverride, { passive: true });
   window.addEventListener('keydown', function (e) {
-    if (e.key === ' ' || /^(Arrow|Page|Home|End)/.test(e.key)) {
-      cancelAnimationFrame(scrollAnim);
-      scrollAnim = null;
-      releaseSpyOverride();
-    }
+    if (e.key === ' ' || /^(Arrow|Page|Home|End)/.test(e.key)) releaseSpyOverride();
   }, { passive: true });
 
   var anchors = Array.prototype.slice.call(header.querySelectorAll('a[href^="#"]'));
   anchors.forEach(function (a) {
-    a.addEventListener('click', function (e) {
-      e.preventDefault();
+    a.addEventListener('click', function () {
+      /* the native anchor scroll does the rest (scroll-padding-top handles
+         the sticky-nav offset); the clicked section keeps the highlight
+         until the user scrolls manually */
       var href = a.getAttribute('href');
-      var target = href === '#top' ? null : document.getElementById(href.slice(1));
-      /* clicked-tab priority: highlight the clicked section immediately and
-         keep it even when the page end cannot bring that section to the top */
       spyOverride = href === '#top' ? null : href.slice(1);
       setActive(spyOverride);
-      var y = target ? Math.max(0, target.getBoundingClientRect().top + scrollYNow() - NAV_OFFSET) : 0;
-      var maxY = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      if (y > maxY) y = maxY; /* never animate past the scrollable end */
-      if (reduceMotion()) { window.scrollTo(0, y); } else { animateScrollTo(y); }
-      try { history.replaceState(null, '', href); } catch (err) { /* ignore */ }
     });
   });
 
@@ -284,12 +230,12 @@
       if (on) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
     });
   }
-  /* position-based default: a section becomes current when its top
-     enters the reading zone (~220px below the viewport top), which also
-     lets Now/Contact activate while scrolling, not only when clicked.
-     Page end: the LAST section wins (the wheel can reach it even though
-     the page cannot bring it under the nav line), with 40px hysteresis so
-     a tiny overscroll bounce never flickers the highlight. */
+  /* standard position spy: a section becomes current when its top
+     crosses the reading line (~30% down the viewport, capped at 280px).
+     Standard end-of-page rule: within 40px of the very bottom the LAST
+     section wins (the wheel can reach it even though the page cannot
+     bring it under the nav line), with 60px hysteresis so momentum
+     settle never flaps the highlight. */
   var spyLast = null;
   function currentActiveId() {
     var d = document.documentElement;
@@ -297,11 +243,11 @@
     var maxY = d.scrollHeight - d.clientHeight;
     if (maxY <= 0) return null;
     if (spyLast === ids[ids.length - 1] && maxY - y <= 60) return spyLast;
-    if (maxY - y <= 24) { spyLast = ids[ids.length - 1]; return spyLast; }
-    var scanY = y + 220;
+    if (maxY - y <= 40) { spyLast = ids[ids.length - 1]; return spyLast; }
+    var reading = y + Math.min(280, d.clientHeight * 0.3);
     var active = null;
     for (var j = ids.length - 1; j >= 0; j--) {
-      if (spyEls[j] && spyEls[j].offsetTop <= scanY) { active = ids[j]; break; }
+      if (spyEls[j] && spyEls[j].offsetTop <= reading) { active = ids[j]; break; }
     }
     spyLast = active;
     return active;

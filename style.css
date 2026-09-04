@@ -31,6 +31,7 @@
   }
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
 body{
   margin:0;
   font-family:var(--sans);
@@ -199,6 +200,7 @@ footer em{color:var(--accent)}
 }
 @keyframes navIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
   .tile,.btn,.nav-link,.nav-toggle .bar{transition:none}
   .nav-menu{animation:none}
 }
