@@ -182,6 +182,25 @@
     if (header.classList.contains('open') && !header.contains(e.target)) setOpen(false);
   });
 
+  /* unified smooth scroll: prevent native anchor default so a new
+     click retargets the running scroll instead of racing it (fixes
+     double-slide / short jitter when clicking links in quick succession) */
+  var NAV_OFFSET = 76;
+  var anchors = Array.prototype.slice.call(header.querySelectorAll('a[href^="#"]'));
+  function reduceMotion() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+  anchors.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var href = a.getAttribute('href');
+      var target = href === '#top' ? null : document.getElementById(href.slice(1));
+      var y = target ? Math.max(0, target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET) : 0;
+      window.scrollTo({ top: y, behavior: reduceMotion() ? 'auto' : 'smooth' });
+      try { history.replaceState(null, '', href); } catch (err) { /* ignore */ }
+    });
+  });
+
   /* scroll spy: highlight current section */
   var ids = ['about', 'research', 'projects', 'now', 'contact'];
   var map = {};
