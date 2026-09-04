@@ -31,7 +31,13 @@
   }
 }
 *{box-sizing:border-box}
-html{scroll-padding-top:76px}
+/* overflow-x:clip — some element overshoots the viewport by a few px at
+   50-100% zoom in Chrome/Windows, which flashes a horizontal scrollbar;
+   the bar taxes ~15px of viewport height, so while pinned to the bottom
+   the page visibly bounces by exactly that amount every time the bar
+   toggles. clip (not hidden) keeps vertical scrolling and position:sticky
+   intact while making a horizontal scrollbar impossible. */
+html{scroll-padding-top:76px;overflow-x:clip}
 body{
   margin:0;
   font-family:var(--sans);
