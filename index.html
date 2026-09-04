@@ -197,6 +197,8 @@
   }
   window.addEventListener('wheel', releaseSpyOverride, { passive: true });
   window.addEventListener('touchstart', releaseSpyOverride, { passive: true });
+  /* scrollbar drags fire no wheel/touch/key events */
+  window.addEventListener('mousedown', releaseSpyOverride);
   window.addEventListener('keydown', function (e) {
     if (e.key === ' ' || /^(Arrow|Page|Home|End)/.test(e.key)) releaseSpyOverride();
   }, { passive: true });
@@ -231,11 +233,13 @@
     });
   }
   /* position spy with DIRECTIONAL HYSTERESIS: a boundary only flips
-     once the scan point is clearly past it (24px), and direction is
-     tracked from the previous position — this fully swallows the small
-     back-and-forth oscillation real trackpads produce at section edges.
-     Page end: the LAST section wins within 70px of the bottom and keeps
-     winning until you are >140px away (wide band, no flap). */
+     once the scan point is clearly past it (16px dead band, wider than
+     the ±15px wander real trackpads produce), and direction is tracked
+     from the previous position.
+     Page end: the LAST section wins within 120px of the bottom and
+     keeps winning until you are >240px away — the keep rule checks
+     distance only, never direction (a direction-qualified keep re-opens
+     a flap hole at 121-240px that real ±8px oscillation exploits). */
   var spyLast = null;
   var spyLastY = null;
   function currentActiveId() {
@@ -245,14 +249,14 @@
     if (maxY <= 0) return null;
     var down = spyLastY === null || y >= spyLastY;
     spyLastY = y;
-    /* Contact zone: the last ~120px of the scrollable range is wide
-       enough to swallow any end-area oscillation (real trackpads wander
-       ±4-15px and the page height can shift across window resizes);
-       while ascending the zone is kept until >240px away. */
+    /* Contact zone: enter at <=120px from the bottom, exit at >240px.
+       The keep rule must be direction-agnostic: qualifying it with
+       "only while ascending" lets a single down-step inside the band
+       fall through to the reading line and flip contact off. */
     if (maxY - y <= 120) { spyLast = ids[ids.length - 1]; return spyLast; }
-    if (spyLast === ids[ids.length - 1] && !down && maxY - y <= 240) return spyLast;
+    if (spyLast === ids[ids.length - 1] && maxY - y <= 240) return spyLast;
     var reading = y + Math.min(280, d.clientHeight * 0.3);
-    var HYST = 12;
+    var HYST = 16;
     var raw = null;
     for (var j = ids.length - 1; j >= 0; j--) {
       if (spyEls[j] && spyEls[j].offsetTop <= reading) { raw = ids[j]; break; }
