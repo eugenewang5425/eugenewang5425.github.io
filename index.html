@@ -182,21 +182,47 @@
     if (header.classList.contains('open') && !header.contains(e.target)) setOpen(false);
   });
 
-  /* unified smooth scroll: prevent native anchor default so a new
-     click retargets the running scroll instead of racing it (fixes
-     double-slide / short jitter when clicking links in quick succession) */
+  /* own the scroll animation with rAF: every click cancels the running
+     animation and restarts from the CURRENT position, so rapid re-clicks
+     never fight Chromium's native smooth-scroll retarget (no stutter) */
   var NAV_OFFSET = 76;
-  var anchors = Array.prototype.slice.call(header.querySelectorAll('a[href^="#"]'));
+  var scrollAnim = null;
+  var scrollYNow = function () {
+    return window.pageYOffset || document.documentElement.scrollTop;
+  };
+  function easeInOutQuad(t) {
+    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  }
+  function animateScrollTo(targetY) {
+    var startY = scrollYNow();
+    var delta = targetY - startY;
+    cancelAnimationFrame(scrollAnim);
+    scrollAnim = null;
+    if (Math.abs(delta) < 1) { window.scrollTo(0, targetY); return; }
+    var duration = Math.min(650, Math.max(240, Math.abs(delta) * 0.4));
+    var t0 = performance.now();
+    function step(now) {
+      var p = Math.min(1, (now - t0) / duration);
+      window.scrollTo(0, startY + delta * easeInOutQuad(p));
+      scrollAnim = p < 1 ? requestAnimationFrame(step) : null;
+    }
+    scrollAnim = requestAnimationFrame(step);
+  }
   function reduceMotion() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
+  /* user manually scrolling always wins: stop our animation */
+  window.addEventListener('wheel', function () { cancelAnimationFrame(scrollAnim); scrollAnim = null; }, { passive: true });
+  window.addEventListener('touchstart', function () { cancelAnimationFrame(scrollAnim); scrollAnim = null; }, { passive: true });
+
+  var anchors = Array.prototype.slice.call(header.querySelectorAll('a[href^="#"]'));
   anchors.forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
       var href = a.getAttribute('href');
       var target = href === '#top' ? null : document.getElementById(href.slice(1));
-      var y = target ? Math.max(0, target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET) : 0;
-      window.scrollTo({ top: y, behavior: reduceMotion() ? 'auto' : 'smooth' });
+      var y = target ? Math.max(0, target.getBoundingClientRect().top + scrollYNow() - NAV_OFFSET) : 0;
+      if (reduceMotion()) { window.scrollTo(0, y); } else { animateScrollTo(y); }
       try { history.replaceState(null, '', href); } catch (err) { /* ignore */ }
     });
   });
