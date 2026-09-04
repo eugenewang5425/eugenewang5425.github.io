@@ -230,24 +230,48 @@
       if (on) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
     });
   }
-  /* standard position spy: a section becomes current when its top
-     crosses the reading line (~30% down the viewport, capped at 280px).
-     Standard end-of-page rule: within 40px of the very bottom the LAST
-     section wins (the wheel can reach it even though the page cannot
-     bring it under the nav line), with 60px hysteresis so momentum
-     settle never flaps the highlight. */
+  /* position spy with DIRECTIONAL HYSTERESIS: a boundary only flips
+     once the scan point is clearly past it (24px), and direction is
+     tracked from the previous position — this fully swallows the small
+     back-and-forth oscillation real trackpads produce at section edges.
+     Page end: the LAST section wins within 70px of the bottom and keeps
+     winning until you are >140px away (wide band, no flap). */
   var spyLast = null;
+  var spyLastY = null;
   function currentActiveId() {
     var d = document.documentElement;
     var y = scrollYNow();
     var maxY = d.scrollHeight - d.clientHeight;
     if (maxY <= 0) return null;
-    if (spyLast === ids[ids.length - 1] && maxY - y <= 60) return spyLast;
-    if (maxY - y <= 40) { spyLast = ids[ids.length - 1]; return spyLast; }
+    var down = spyLastY === null || y >= spyLastY;
+    spyLastY = y;
+    /* Contact zone: enter within 70px of the bottom (any direction);
+       while ascending it is kept until >140px away, so the end-area
+       oscillation real trackpads produce never flaps the highlight. */
+    if (maxY - y <= 70) { spyLast = ids[ids.length - 1]; return spyLast; }
+    if (spyLast === ids[ids.length - 1] && !down && maxY - y <= 140) return spyLast;
     var reading = y + Math.min(280, d.clientHeight * 0.3);
-    var active = null;
+    var HYST = 24;
+    var raw = null;
     for (var j = ids.length - 1; j >= 0; j--) {
-      if (spyEls[j] && spyEls[j].offsetTop <= reading) { active = ids[j]; break; }
+      if (spyEls[j] && spyEls[j].offsetTop <= reading) { raw = ids[j]; break; }
+    }
+    var active;
+    if (!raw) {
+      active = null;
+    } else if (!spyLast || raw === spyLast) {
+      active = raw;
+    } else {
+      var rawIdx = ids.indexOf(raw);
+      var lastIdx = ids.indexOf(spyLast);
+      if (down) {
+        /* descending: take the new section once it is HYST inside the zone */
+        active = (spyEls[rawIdx].offsetTop <= reading - HYST || rawIdx === ids.length - 1) ? raw : spyLast;
+      } else {
+        /* ascending: step up one level once the current section's top is
+           clearly above the reading line */
+        active = (spyEls[lastIdx].offsetTop > reading + HYST) ? (lastIdx > 0 ? ids[lastIdx - 1] : null) : spyLast;
+      }
     }
     spyLast = active;
     return active;
