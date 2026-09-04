@@ -17,15 +17,15 @@
 
 ## 页面结构 / Sections
 
-Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Net 指标）→ 03 Projects（5 个公开仓库卡片）→ 04 Now/Next（阶段路线）→ 05 Contact → Footer。
+Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Net 指标）→ 03 Projects（6 个卡片：5 个公开仓库 + 1 个在线检索页）→ 04 Now/Next（阶段路线）→ 05 Contact → Footer。
 
 ## 交互 / Interactions
 
-- 导航：吸顶胶囊菜单，滚动位置高亮（阅读线 ~30% 视口 + **方向迟滞 12px** 防边界抖动）
+- 导航：吸顶胶囊菜单，滚动位置高亮（阅读线 ~30% 视口 + **方向迟滞 16px** 防边界抖动）
 - 末端处理：距底部 ≤120px 视为"已到底"（激活最后一节 Contact），上行保持至 >240px——抵消真实触控板 ±15px 动量震荡与页面高度漂移
 - 点击优先：点击导航即高亮目标分区（即使页面长度不足以把该节顶到导航正下），手动滚动后交还位置规则
-- 滚动：100% 浏览器原生（`scroll-behavior: smooth` + `scroll-padding-top: 76px` + 锚点），无任何自定义滚动动画
-- 诊断入口：URL 加 `#diag` 可开启逐帧滚动轨迹录制（导出按钮），用于环境差异排查
+- 滚动：导航点击 preventDefault + JS 读取 computed `scroll-padding/scroll-margin` 计算目标后**瞬时跳转**（`window.scrollTo`）+ `history.pushState`——不依赖浏览器内置平滑滚动（Chrome 151/Windows 对其落点计算失准，曾偏移数百 px）
+- 根容器 `html { overflow-x: clip }`：横向溢出被裁剪且不创建滚动容器，杜绝"滚动条出现→页面高度漂移→布局振荡"链条
 
 ## 已知问题与解决记录 / Known issue & resolution
 
@@ -33,9 +33,9 @@ Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Ne
 
 **为什么常规站点没有**：绝大多数页面具备横向防溢出护栏（`overflow-x: clip/hidden` 或全局 `max-width:100%` + `min-width:0`），且不存在"距底阈值敏感"的滚动监测；本站桌面导航为无换行胶囊组，在窄于其最小宽度但尚未进入 640px 移动断点的视口/缩放下可能成为溢出源。
 
-**规避与修复（进行时）**：① 交互层已改为全部原生滚动 + 方向迟滞/末端宽区，与滚动条漂移解耦；② 根治项（待应用）：根容器 `overflow-x: clip` + 导航 `min-width:0`/允许换行护栏，从源头消除横向溢出；见 Issue #1 全链路溯源。
+**规避与修复（已全部落地）**：① 交互层全部原生滚动 + 方向迟滞/末端宽区，与滚动条漂移解耦（7869546）；② 根治项已应用：根容器 `overflow-x: clip`（c9f9fbc）从源头消除横向溢出；③ 导航点击改为 JS 瞬时跳转（4c0a70b），绕开 Chrome 151 平滑滚动失准；④ 移除冗余双倍偏移（dbd3dec）。完整三层根因与版本溯源见 Issue #1。
 
-**版本溯源（本仓库 `git log`）**：80a74f5（导航重做，引入宽屏胶囊导航）→ 7876c19 / d5f53a6 / 75c34c7（自定义滚动动画多轮尝试）→ cb20e4f / 791cc1e / 1bac19d / c29e5a4（scroll-spy 位置算法与末端迟滞迭代）→ 7c769fa（回归原生滚动）→ 6337548（加装 #diag 诊断）→ c29e5a4（现 HEAD，120px 末端区）。
+**版本溯源（本仓库 `git log`）**：80a74f5（导航重做）→ 7876c19 / d5f53a6 / 75c34c7（自定义滚动动画多轮尝试）→ cb20e4f / 791cc1e / 1bac19d / c29e5a4（scroll-spy 迭代）→ 7c769fa（回归原生滚动）→ 6337548（#diag 诊断）→ 240058e（删 #diag）→ 4c0a70b（导航瞬时跳转）→ c9f9fbc（overflow-x: clip）→ dbd3dec（单一偏移来源）→ 7869546（方向无关迟滞，结案）。
 
 ## 本地开发 / Local
 
