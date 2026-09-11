@@ -85,16 +85,22 @@
         <p>Land-cover classification for complex forest regions (根河市 · 呼伦贝尔): <strong>CNN multi-scale features</strong> +
           <strong>Transformer global modeling</strong> on GF-1/GF-6 2.4 m 4-band imagery —
           <strong>OA 76.80% · Kappa 0.650 · mIoU 41.59%</strong> on a spatially independent test set.</p>
+        <p class="line">代码与实验记录：<a href="https://github.com/eugenewang5425/mssact-loveda">mssact-loveda</a> — MSSACT-Net 对照/消融、LoveDA 基准与 GF-1 滑窗制图管线</p>
       </div>
     </section>
 
     <section class="card" id="projects">
       <h2><span class="sec-num">03</span>Projects · 项目</h2>
       <div class="grid">
+        <a class="tile" href="https://github.com/eugenewang5425/mssact-loveda">
+          <span class="tile-icon">🛰️</span>
+          <strong>mssact-loveda</strong>
+          <span>遥感土地覆盖语义分割：MSSACT-Net 对比/消融 + LoveDA 基准 + GF-1 全图滑窗制图管线 / Land-cover segmentation: LoveDA benchmark + GF-1 mapping pipeline</span>
+        </a>
         <a class="tile" href="https://github.com/eugenewang5425/embodied-ai-lab">
           <span class="tile-icon">🧠</span>
           <strong>embodied-ai-lab</strong>
-          <span>具身智能学习实验室：MuJoCo 控制/感知实验线 + 单目深度计量 / MuJoCo control &amp; perception line, monocular-depth lab</span>
+          <span>具身智能学习实验室：51 课 / 867 项测试——MuJoCo 控制 → 三维感知 → 学习策略 → SLAM 与导航栈 / 51 lessons, 867 tests</span>
         </a>
         <a class="tile" href="https://github.com/eugenewang5425/geoflow">
           <span class="tile-icon">🚕</span>
@@ -127,8 +133,8 @@
     <section class="card" id="now">
       <h2><span class="sec-num">04</span>Now / Next · 阶段</h2>
       <ul class="road">
-        <li><b>Now</b> — embodied-AI 学习线：MuJoCo（PD → LQR → 摆起 → 2R 臂 → 里程计 → 路标融合，443 项测试通过）· 单目深度计量标定 · ROS 2 Jazzy + Gazebo</li>
-        <li><b>Next</b> — 3D 感知（点云 / SLAM）· ROS 2 导航 · 模仿学习（ACT）</li>
+        <li><b>Now</b> — embodied-ai-lab 第 51 课 / <strong>867 项测试全绿</strong>：MuJoCo 控制（PD → LQR → 摆起 → 2R 臂 → 里程计 → 路标融合）· 三维感知（单目深度计量标定 → 点云 ICP → MobileSAM 接地）· 学习策略（BC / PPO / DAPG / SAC / DAgger / 多峰块策略）· SLAM 与导航（占据栅格 + A* + 纯追踪 → 位姿图优化 → 回环闭合 → 鲁棒后端）</li>
+        <li><b>Next</b> — 相对回环边（为 SC/MM 提供真实工作域）· ROS 2 (Jazzy) 导航栈（Nav2 / AMCL 生产对照）· Gazebo Harmonic 世界与真机</li>
         <li><b>Long-term</b> — 具身智能 · VLA / 世界模型</li>
       </ul>
     </section>

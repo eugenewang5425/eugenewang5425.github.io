@@ -17,7 +17,7 @@
 
 ## 页面结构 / Sections
 
-Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Net 指标）→ 03 Projects（6 个卡片：5 个公开仓库 + 1 个在线检索页）→ 04 Now/Next（阶段路线）→ 05 Contact → Footer。
+Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Net 指标 + mssact-loveda 仓库链接）→ 03 Projects（7 个卡片：6 个公开仓库 + 1 个在线检索页）→ 04 Now/Next（阶段路线）→ 05 Contact → Footer。
 
 ## 交互 / Interactions
 
