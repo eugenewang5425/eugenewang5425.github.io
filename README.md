@@ -17,7 +17,11 @@
 
 ## 页面结构 / Sections
 
-Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Net 指标 + mssact-loveda 仓库链接）→ 03 Projects（7 个卡片：6 个公开仓库 + 1 个在线检索页）→ 04 Now/Next（阶段路线）→ 05 Contact → Footer。
+Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Net 指标 + mssact-loveda 仓库链接）→ 03 Projects（8 个卡片：7 个公开仓库 + 1 个在线检索页）→ 04 Now/Next（阶段路线）→ 05 Contact → Footer。
+
+## 内容同步 / Content sync
+
+最近一次同步：**2026-09-21** — 新增 `MicroDinosaur`（双足恐龙机器人：Blender CAD v07 + MuJoCo/PPO 训练 + 头部 IMU 姿态补偿，处于"设计与仿真 → 实物搭建"过渡）；刷新 `embodied-ai-lab` 的 SLAM 主线表述（第 51 课 / 867 项测试全绿，含回环匹配与 switchable constraints 的可证伪结论）；技能芯片更新为 `MuJoCo · PPO` / `ROS 2 Jazzy · Gazebo` / `Blender CAD`。
 
 ## 交互 / Interactions
 
