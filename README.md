@@ -21,7 +21,7 @@ Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Ne
 
 ## 内容同步 / Content sync
 
-最近一次同步：**2026-09-21** — 新增 `MicroDinosaur`（双足恐龙机器人：Blender CAD v07 + MuJoCo/PPO 训练 + 头部 IMU 姿态补偿，处于"设计与仿真 → 实物搭建"过渡）；刷新 `embodied-ai-lab` 的 SLAM 主线表述（第 51 课 / 867 项测试全绿，含回环匹配与 switchable constraints 的可证伪结论）；技能芯片更新为 `MuJoCo · PPO` / `ROS 2 Jazzy · Gazebo` / `Blender CAD`；Nav2 / AMCL 由「常态化 Next 项」改标为**计划项**（出处 lab `docs/53` 第 48 课下一步第 3 条，措辞不再暗示进行中）。
+最近一次同步：**2026-10-01** — `embodied-ai-lab` 主线推进到 1–56 课 / 905 项测试全绿（导航线延伸到图定位）；补记新线第 63–73 课：官方 Nav2/AMCL 对照过参数门禁（第 64 课 v4，"参数不敏感"旧结论已撤回）、园区巡检与避障修图（65–68）、分离实验十一轮（69–71）、SO-101 抓取 6/9（72–73，相机未参与控制）；Nav2/AMCL 由「计划项」转为已完成，Next 更新为多传感器导航路线图（LiDAR＋RGB-D）与 SO-101 视觉闭环抓取。
 
 ## 交互 / Interactions
 
