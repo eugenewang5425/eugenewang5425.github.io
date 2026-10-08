@@ -101,7 +101,7 @@
         <a class="tile" href="https://github.com/eugenewang5425/embodied-ai-lab">
           <span class="tile-icon">🧠</span>
           <strong>embodied-ai-lab</strong>
-          <span>具身智能学习实验室：主线 1–56 课 + 新线 63–73 课 · 全量 1121 项测试通过（终版 933 quick + 38 selected） / Mainline 56 lessons + lessons 63–73 (SO-101 grasping), 1121 tests passed</span>
+          <span>具身智能学习实验室：主线 1–56 课 + 新线 63–73 课 · 全量 1134 项测试通过（更正后 936 quick + 20 grasping + 12 replay） / Mainline 56 lessons + lessons 63–73 (SO-101 grasping), 1134 tests passed</span>
         </a>
         <a class="tile" href="https://github.com/eugenewang5425/MicroDinosaur">
           <span class="tile-icon">🦖</span>
@@ -139,9 +139,9 @@
     <section class="card" id="now">
       <h2><span class="sec-num">04</span>Now / Next · 阶段</h2>
       <ul class="road">
-        <li><b>Now</b> — embodied-ai-lab 主线 1–56 课完成 / <strong>全量 1121 项测试通过</strong>（终版 933 quick + 38 selected，导航与抓取记录已独立回放复核）：MuJoCo 控制（PD → LQR → 摆起 → 2R 臂 → 里程计 → 路标融合）· 三维感知（单目深度计量标定 → 点云 ICP → MobileSAM 接地）· 学习策略（BC / PPO / DAPG / SAC / DAgger / 多峰块策略，负结果照实记录）· SLAM 与导航（占据栅格 + A* + 纯追踪 15/15 → 位姿图优化 → 回环闭合 → 鲁棒后端 → 图定位）；新线（第 63–73 课）：照片房间三维验证与闭环导航 + AMCL 过参数门禁（63–64，“参数不敏感”旧结论已撤回）· 地图分离（65）· 园区巡检、车身标定观测避障与错图修复（66–68，81 回合融合组 18/27 到达零碰撞、真实判点 5/24→23/24）· 在线地图导航三连验证（69–71：街区 60/60 零接触、停稳到点 48/48、观测约束恢复 18/24→24/24）· SO-101 接触抓取（72–73：同 27 新条件 17/27→21/27，两负对照各 0/9，相机未参与控制）</li>
+        <li><b>Now</b> — embodied-ai-lab 主线 1–56 课完成 / <strong>全量 1134 项测试通过</strong>（更正旧 RGB 断言后 936 quick + 20 grasping + 12 replay 分别整跑通过，抓取记录已独立回放复核）：MuJoCo 控制（PD → LQR → 摆起 → 2R 臂 → 里程计 → 路标融合）· 三维感知（单目深度计量标定 → 点云 ICP → MobileSAM 接地）· 学习策略（BC / PPO / DAPG / SAC / DAgger / 多峰块策略，负结果照实记录）· SLAM 与导航（占据栅格 + A* + 纯追踪 15/15 → 位姿图优化 → 回环闭合 → 鲁棒后端 → 图定位）；新线（第 63–73 课）：照片房间三维验证与闭环导航 + AMCL 过参数门禁（63–64，“参数不敏感”旧结论已撤回）· 地图分离（65）· 园区巡检、车身标定观测避障与错图修复（66–68，81 回合融合组 18/27 到达零碰撞、真实判点 5/24→23/24）· 在线地图导航三连验证（69–71：街区 60/60 零接触、停稳到点 48/48、观测约束恢复 18/24→24/24）· SO-101 接触抓取（72–73：三轮同 27 新条件 17/27→21/27→24/27，第三轮指面校准救回 3 例无退步，两负对照各 0/9，仍 3 例掉落，相机未参与控制）</li>
         <li><b>Now</b> — MicroDinosaur 双足恐龙机器人：CAD v07 定版（19× S288 驱动 · 672 项实体质量台账 · 名义质量 ~1.098 kg）+ MuJoCo/PPO 训练与 CPU ONNX 头控复现入口；已购舵机 / IMU / 电池，机身待打印与实机验证</li>
-        <li><b>Next</b> — embodied-ai-lab 多传感器导航路线图（LiDAR＋RGB-D 定位/建图/巡检/失效恢复，8 阶段，首轮 RGB-D）· SO-101 抓取：先补接触反馈，再接视觉闭环 · MicroDinosaur 干涉修正 → 局部试片 → 装配与线束 → IMU 标定与分阶段实机验证</li>
+        <li><b>Next</b> — embodied-ai-lab 多传感器导航路线图（LiDAR＋RGB-D 定位/建图/巡检/失效恢复，8 阶段，首轮 RGB-D）· SO-101 抓取：先补动态接触，再进入视觉闭环 · MicroDinosaur 干涉修正 → 局部试片 → 装配与线束 → IMU 标定与分阶段实机验证</li>
         <li><b>Long-term</b> — 具身智能 · VLA / 世界模型</li>
       </ul>
     </section>
