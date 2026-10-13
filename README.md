@@ -17,14 +17,16 @@
 
 ## 页面结构 / Sections
 
-Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Net 指标 + mssact-loveda 仓库链接）→ 03 Projects（8 个卡片：7 个公开仓库 + 1 个在线检索页）→ 04 Now/Next（阶段路线）→ 05 Contact → Footer。
+Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Net 指标 + mssact-loveda 仓库链接）→ 03 Projects（5 个卡片：4 个公开仓库 + 1 个开源贡献）→ 04 Now/Next（阶段路线）→ 05 Contact → Footer。
 
 ## 内容同步 / Content sync
 
-最近一次同步：**2026-10-09** — `embodied-ai-lab` Verified 更新为「全量 1134 通过（更正旧 RGB 相等断言后 936 quick + 20 grasping + 12 replay 分别整跑通过），抓取记录已独立回放复核」（delivery evidence 换为 so101-contact-v4）；SO-101 抓取推进到**第三轮**（docs/73-so101-contact-feedback.md，126 物理回合）：同 27 新条件指面校准 21/27→**24/27**、救回 3 例无退步，单独门控 11/27、组合 23/27，两负对照各 0/9，仍 3 例掉落；Next 改为「先补动态接触，再进入视觉闭环」。主线仍为 1–56 课 + 新线 63–73 课。
+最近一次同步：**2026-10-13** — 主页瘦身（用户决定）：撤下 ielts-corpus-lab / flowboard / web-design-principles 的展示（profile 项目列表与站点磁贴均移除；仓库本身保留），撤下贡献蛇形；个人介绍压缩为几句话。主页聚焦机器人主线：embodied-ai-lab、MicroDinosaur、mssact-loveda、geoflow + clawd-on-desk 开源贡献。
 
 <details>
 <summary>历史同步记录</summary>
+
+**2026-10-09** — `embodied-ai-lab` Verified 更新为「全量 1134 通过（更正旧 RGB 相等断言后 936 quick + 20 grasping + 12 replay 分别整跑通过），抓取记录已独立回放复核」（delivery evidence 换为 so101-contact-v4）；SO-101 抓取推进到**第三轮**（docs/73-so101-contact-feedback.md，126 物理回合）：同 27 新条件指面校准 21/27→**24/27**、救回 3 例无退步，单独门控 11/27、组合 23/27，两负对照各 0/9，仍 3 例掉落；Next 改为「先补动态接触，再进入视觉闭环」。主线仍为 1–56 课 + 新线 63–73 课。
 
 **2026-10-05** — `embodied-ai-lab` Verified 行更新为「全量 1121 通过（终版 933 quick + 38 selected），导航与抓取记录已独立回放复核」；新线第 63–73 课表述按课程索引校正：照片房间三维验证与闭环导航 + AMCL 过参数门禁（63–64）、地图分离（65）、园区巡检/车身标定观测避障/错图修复（66–68，81 回合融合组 18/27 到达零碰撞、判点 5/24→23/24）、在线地图导航三连验证（69–71：街区 60/60 零接触、停稳到点 48/48、观测约束恢复 18/24→24/24）、SO-101 接触抓取第二轮（72–73：同 27 新条件 17/27→21/27，两负对照各 0/9）；Next 的 SO-101 改为「先补接触反馈，再接视觉闭环」。
 
