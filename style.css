@@ -211,9 +211,9 @@ footer em{color:var(--accent)}
 }
 
 /* Public experiment evidence */
-.experiment-figure{margin:24px 0 14px}
-.experiment-figure img{display:block;width:100%;height:auto;border:1px solid var(--card-border);border-radius:8px}
-.experiment-figure figcaption{margin-top:10px;font-size:.88rem;color:var(--muted)}
 .tile{min-width:0}
 .tile a{overflow-wrap:anywhere}
 .line{overflow-wrap:anywhere}
+.tile strong a{color:inherit;text-decoration:none}
+.tile strong a:hover,.tile strong a:focus-visible{text-decoration:underline}
+article.tile > a{font-size:.88rem}
