@@ -1,6 +1,6 @@
 # eugenewang5425.github.io
 
-个人主页 / Personal site of **Eugene Wang** — 从 GIS/遥感深度学习走向机器人/具身智能。
+个人主页 / Personal site of **Eugene Wang** — GIS、遥感与机器人项目。
 
 🌐 线上站点: <https://eugenewang5425.github.io>
 
@@ -17,11 +17,15 @@
 
 ## 页面结构 / Sections
 
-Hero（头像/标语/技能芯片/CTA）→ 01 About → 02 Research（MSSACT-Net 指标 + mssact-loveda 仓库链接）→ 03 Projects（5 个卡片：4 个公开仓库 + 1 个开源贡献）→ 04 Now/Next（阶段路线）→ 05 Contact → Footer。
+Hero（姓名、简短介绍与联系入口）→ 01 About（学校与专业）→ 02 Research（遥感制图）→ 03 Projects（五个项目与仿真演示）→ 04 Now/Next → 05 Contact → Footer。
 
 ## 内容同步 / Content sync
 
-最近一次同步：**2026-10-13** — 主页瘦身（用户决定）：撤下 ielts-corpus-lab / flowboard / web-design-principles 的展示（profile 项目列表与站点磁贴均移除；仓库本身保留），撤下贡献蛇形；个人介绍压缩为几句话。主页聚焦机器人主线：embodied-ai-lab、MicroDinosaur、mssact-loveda、geoflow + clawd-on-desk 开源贡献。
+最近一次同步：**2026-10-29** — 按用户要求简化介绍、项目与演示：去除术语列表、实验数字和运行条件长段，保留五个项目、一张抓取仿真图和三个记录/视频入口；导航脚本不变。与 GitHub 个人主页同步发布。
+
+上次同步：**2026-10-28** — 本地内容修订：项目按 lab、MicroDinosaur、mssact-loveda、geoflow、clawd-on-desk 排序；增加公开 SO-101 仿真截图、导航截图与 S288 仿真巡检视频。抓取改为同轮 A 指尖 21/27 → B 指面 24/27，保留失败与控制条件；删除页面旧测试数量，压缩 Now/Next，补充有文档依据的运行与回放入口。本轮未推送、未部署、未重跑实验。
+
+上次同步：**2026-10-13** — 主页瘦身（用户决定）：撤下 ielts-corpus-lab / flowboard / web-design-principles 的展示（profile 项目列表与站点磁贴均移除；仓库本身保留），撤下贡献蛇形；个人介绍压缩为几句话。主页聚焦机器人主线：embodied-ai-lab、MicroDinosaur、mssact-loveda、geoflow + clawd-on-desk 开源贡献。
 
 <details>
 <summary>历史同步记录</summary>

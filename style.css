@@ -209,3 +209,11 @@ footer em{color:var(--accent)}
   .tile,.btn,.nav-link,.nav-toggle .bar{transition:none}
   .nav-menu{animation:none}
 }
+
+/* Public experiment evidence */
+.experiment-figure{margin:24px 0 14px}
+.experiment-figure img{display:block;width:100%;height:auto;border:1px solid var(--card-border);border-radius:8px}
+.experiment-figure figcaption{margin-top:10px;font-size:.88rem;color:var(--muted)}
+.tile{min-width:0}
+.tile a{overflow-wrap:anywhere}
+.line{overflow-wrap:anywhere}

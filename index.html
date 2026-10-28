@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eugene Wang · GIS → Robotics · 个人主页</title>
-  <meta name="description" content="Eugene Wang — GIS & remote-sensing deep learning, now building toward embodied intelligence: robot perception, 3D vision, SLAM, and a self-built bipedal robot." />
+  <title>Eugene Wang · GIS 与机器人 · 个人主页</title>
+  <meta name="description" content="Eugene Wang：GIS 与遥感背景，学习机器人感知与控制，搭建小型双足机器人。" />
   <meta name="author" content="Eugene Wang" />
   <meta name="theme-color" content="#fbf8f4" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#15161a" media="(prefers-color-scheme: dark)" />
   <link rel="canonical" href="https://eugenewang5425.github.io/" />
-  <meta property="og:title" content="Eugene Wang · GIS → Robotics" />
-  <meta property="og:description" content="Mapping the world — then teaching machines to move in it." />
+  <meta property="og:title" content="Eugene Wang · GIS 与机器人" />
+  <meta property="og:description" content="GIS、遥感与机器人：项目和学习记录。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://eugenewang5425.github.io/" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#127757;</text></svg>" />
@@ -42,25 +42,8 @@
 
     <section class="hero" id="top">
       <h1 class="name">Eugene Wang</h1>
-      <p class="tagline">
-        🌍 <strong>GIS · Remote-Sensing Deep Learning → Robotics</strong>
-      </p>
-      <p class="intro">
-        从「看懂地图」走到「看懂世界、还能动」。<br />
-        <em>Mapping the world — then teaching machines to move in it.</em>
-      </p>
-      <div class="badges">
-        <span class="chip">Python</span>
-        <span class="chip">PyTorch</span>
-        <span class="chip">CNN / Transformer</span>
-        <span class="chip">GIS · ArcGIS</span>
-        <span class="chip">Remote Sensing</span>
-        <span class="chip">Hadoop / MapReduce</span>
-        <span class="chip">MuJoCo · PPO</span>
-        <span class="chip">ROS 2 Jazzy · Gazebo</span>
-        <span class="chip">Blender CAD</span>
-        <span class="chip">3D Vision · SLAM</span>
-      </div>
+      <p class="tagline"><strong>GIS · 遥感 · 机器人</strong></p>
+      <p class="intro">GIS 与遥感背景，目前学习机器人感知与控制，也在搭建一台小型双足机器人。</p>
       <div class="cta">
         <a class="btn" href="https://github.com/eugenewang5425">GitHub Profile</a>
         <a class="btn ghost" href="mailto:eugenewa@outlook.com">Email Me</a>
@@ -69,66 +52,37 @@
 
     <section class="card" id="about">
       <h2><span class="sec-num">01</span>About · 关于</h2>
-      <p>
-        B.S. in <strong>Geographic Information Science</strong> (Northeast Forestry University, 2026) — focused on
-        <strong>high-resolution remote-sensing land-cover classification</strong>, now carrying spatial computation into
-        <strong>robotics: 3D vision, robot perception, SLAM and robot learning</strong>.
-      </p>
-      <p class="line">
-        Main line: <code>spatial intelligence → computer vision → robot perception &amp; mapping → robot learning</code>
-      </p>
+      <p>东北林业大学地理信息科学专业，2026 年毕业。</p>
+      <p class="line">B.S. in Geographic Information Science, Northeast Forestry University.</p>
     </section>
 
     <section class="card" id="research">
       <h2><span class="sec-num">02</span>Research · 研究</h2>
-      <div class="item">
-        <h3>MSSACT-Net · 高分辨率遥感影像土地覆盖分类</h3>
-        <p>Land-cover classification for complex forest regions (根河市 · 呼伦贝尔): <strong>CNN multi-scale features</strong> +
-          <strong>Transformer global modeling</strong> on GF-1/GF-6 2.4 m 4-band imagery —
-          <strong>OA 76.80% · Kappa 0.650 · mIoU 41.59%</strong> on a spatially independent test set.</p>
-        <p class="line">代码与实验记录：<a href="https://github.com/eugenewang5425/mssact-loveda">mssact-loveda</a> — MSSACT-Net 对照/消融、LoveDA 基准与 GF-1 滑窗制图管线</p>
-      </div>
+      <p>用遥感影像识别森林、农田、建筑等土地覆盖类型，并把结果做成地图。</p>
+      <p class="line"><a href="https://github.com/eugenewang5425/mssact-loveda">研究代码与记录 / Land-cover mapping ↗</a></p>
     </section>
 
     <section class="card" id="projects">
       <h2><span class="sec-num">03</span>Projects · 项目</h2>
       <div class="grid">
-        <a class="tile" href="https://github.com/eugenewang5425/mssact-loveda">
-          <span class="tile-icon">🛰️</span>
-          <strong>mssact-loveda</strong>
-          <span>遥感土地覆盖语义分割：MSSACT-Net 对比/消融 + LoveDA 基准 + GF-1 全图滑窗制图管线 / Land-cover segmentation: LoveDA benchmark + GF-1 mapping pipeline</span>
-        </a>
-        <a class="tile" href="https://github.com/eugenewang5425/embodied-ai-lab">
-          <span class="tile-icon">🧠</span>
-          <strong>embodied-ai-lab</strong>
-          <span>具身智能学习实验室：主线 1–56 课 + 新线 63–73 课 · 全量 1134 项测试通过（更正后 936 quick + 20 grasping + 12 replay） / Mainline 56 lessons + lessons 63–73 (SO-101 grasping), 1134 tests passed</span>
-        </a>
-        <a class="tile" href="https://github.com/eugenewang5425/MicroDinosaur">
-          <span class="tile-icon">🦖</span>
-          <strong>MicroDinosaur</strong>
-          <span>小型双足恐龙机器人：Blender CAD v07（19× S288 驱动 · 672 项实体质量台账）+ MuJoCo/PPO 训练与头部 IMU 姿态补偿（仿真周期偏航 RMS 1.47→0.62°）；设计与仿真 → 实物搭建过渡阶段 / Bipedal dino robot: CAD + MuJoCo·PPO + IMU head control</span>
-        </a>
-        <a class="tile" href="https://github.com/eugenewang5425/geoflow">
-          <span class="tile-icon">🚕</span>
-          <strong>geoflow</strong>
-          <span>Hadoop 分布式城市出行时空分析：~43M NYC 轨迹 · 3D 可视化 · 天气感知需求预测 / MapReduce mobility analytics</span>
-        </a>
-        <a class="tile" href="https://github.com/eugenewang5425/clawd-on-desk">
-          <span class="tile-icon">🐾</span>
-          <strong>clawd-on-desk</strong>
-          <span>开源贡献：注视 AI 编码代理的桌面像素宠物（可靠性审计）/ Pixel desktop pet · reliability audit</span>
-        </a>
+        <a class="tile" href="https://github.com/eugenewang5425/embodied-ai-lab"><span class="tile-icon">🧠</span><strong>embodied-ai-lab</strong><span>机器人导航和抓取的仿真实验与学习记录。 / Robot simulations</span></a>
+        <a class="tile" href="https://github.com/eugenewang5425/MicroDinosaur"><span class="tile-icon">🦖</span><strong>MicroDinosaur</strong><span>小型双足恐龙机器人，正在设计和搭建。 / Bipedal robot build</span></a>
+        <a class="tile" href="https://github.com/eugenewang5425/mssact-loveda"><span class="tile-icon">🛰️</span><strong>mssact-loveda</strong><span>用遥感影像识别土地覆盖。 / Land-cover mapping</span></a>
+        <a class="tile" href="https://github.com/eugenewang5425/geoflow"><span class="tile-icon">🚕</span><strong>geoflow</strong><span>用出租车轨迹分析城市出行。 / Urban mobility</span></a>
+        <a class="tile" href="https://github.com/eugenewang5425/clawd-on-desk"><span class="tile-icon">🐾</span><strong>clawd-on-desk</strong><span>为桌面宠物项目修复问题。 / Desktop pet fixes</span></a>
       </div>
+      <figure class="experiment-figure">
+        <a href="https://github.com/eugenewang5425/embodied-ai-lab/blob/main/docs/73-so101-contact-feedback.md"><img src="https://raw.githubusercontent.com/eugenewang5425/embodied-ai-lab/main/docs/img/lesson73-round3-window-lift.png" alt="机械臂抓取仿真 / Grasping simulation" loading="lazy" /></a>
+        <figcaption>机械臂抓取仿真 / Grasping simulation</figcaption>
+      </figure>
+      <p>以上为仿真演示。 / Simulated demos.</p>
+      <p class="line"><a href="https://github.com/eugenewang5425/embodied-ai-lab/blob/main/docs/73-so101-contact-feedback.md">抓取记录</a> · <a href="https://github.com/eugenewang5425/embodied-ai-lab/blob/main/docs/69-physical-height-navigation.md">导航记录</a> · <a href="https://www.bilibili.com/video/BV1Mtp46EEw9/">3 分钟巡检仿真</a></p>
     </section>
 
     <section class="card" id="now">
       <h2><span class="sec-num">04</span>Now / Next · 阶段</h2>
-      <ul class="road">
-        <li><b>Now</b> — embodied-ai-lab 主线 1–56 课完成 / <strong>全量 1134 项测试通过</strong>（更正旧 RGB 断言后 936 quick + 20 grasping + 12 replay 分别整跑通过，抓取记录已独立回放复核）：MuJoCo 控制（PD → LQR → 摆起 → 2R 臂 → 里程计 → 路标融合）· 三维感知（单目深度计量标定 → 点云 ICP → MobileSAM 接地）· 学习策略（BC / PPO / DAPG / SAC / DAgger / 多峰块策略，负结果照实记录）· SLAM 与导航（占据栅格 + A* + 纯追踪 15/15 → 位姿图优化 → 回环闭合 → 鲁棒后端 → 图定位）；新线（第 63–73 课）：照片房间三维验证与闭环导航 + AMCL 过参数门禁（63–64，“参数不敏感”旧结论已撤回）· 地图分离（65）· 园区巡检、车身标定观测避障与错图修复（66–68，81 回合融合组 18/27 到达零碰撞、真实判点 5/24→23/24）· 在线地图导航三连验证（69–71：街区 60/60 零接触、停稳到点 48/48、观测约束恢复 18/24→24/24）· SO-101 接触抓取（72–73：三轮同 27 新条件 17/27→21/27→24/27，第三轮指面校准救回 3 例无退步，两负对照各 0/9，仍 3 例掉落，相机未参与控制）</li>
-        <li><b>Now</b> — MicroDinosaur 双足恐龙机器人：CAD v07 定版（19× S288 驱动 · 672 项实体质量台账 · 名义质量 ~1.098 kg）+ MuJoCo/PPO 训练与 CPU ONNX 头控复现入口；已购舵机 / IMU / 电池，机身待打印与实机验证</li>
-        <li><b>Next</b> — embodied-ai-lab 多传感器导航路线图（LiDAR＋RGB-D 定位/建图/巡检/失效恢复，8 阶段，首轮 RGB-D）· SO-101 抓取：先补动态接触，再进入视觉闭环 · MicroDinosaur 干涉修正 → 局部试片 → 装配与线束 → IMU 标定与分阶段实机验证</li>
-        <li><b>Long-term</b> — 具身智能 · VLA / 世界模型</li>
-      </ul>
+      <p>目前在做机器人导航、抓取仿真，并搭建小型双足机器人。</p>
+      <p>接下来继续试验、装配和调试，记录遇到的问题。</p>
     </section>
 
     <section class="card" id="contact">
@@ -141,10 +95,7 @@
       </div>
     </section>
 
-    <footer>
-      <p>🪧 用空间数据理解世界，用智能体改变世界。<br /><em>Map the world, then teach it to move.</em></p>
-      <p class="foot-note">© 2026 Eugene Wang · 纯 HTML/CSS 构建 · Hosted on <a href="https://github.com/eugenewang5425/eugenewang5425.github.io">GitHub Pages</a></p>
-    </footer>
+    <footer><p>© 2026 Eugene Wang · <a href="https://github.com/eugenewang5425/eugenewang5425.github.io">Source</a></p></footer>
 
   </main>
 
